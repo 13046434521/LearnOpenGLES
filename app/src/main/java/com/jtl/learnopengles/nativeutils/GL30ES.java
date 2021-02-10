@@ -1,5 +1,7 @@
 package com.jtl.learnopengles.nativeutils;
 
+import android.content.res.AssetManager;
+
 /**
  * @author：TianLong
  * @date：2021/2/7 11:51
@@ -16,4 +18,6 @@ public class GL30ES {
     public static native void glClear(int type);
 
     public static native void glViewPort(int x, int y, int width, int height);
+
+    public static native void initGLES(AssetManager assetManager);
 }

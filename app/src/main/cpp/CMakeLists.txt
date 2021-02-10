@@ -18,6 +18,7 @@ add_library(
             opengles_util
             SHARED
             opengl-utils.cpp
+            utils.cpp
 )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -43,5 +44,6 @@ target_link_libraries( # Specifies the target library.
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib}
-        GLESv3
+        android
+        GLESv2
                         )

@@ -4,11 +4,13 @@
 #pragma once
 #include <jni.h>
 #include <stdio.h>
-#include <GLES3/gl3.h>
-#include <GLES3/gl3ext.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #include <android/log.h>
 #include <string>
-
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+#include "utils.h"
 #define TAG "GL30ES"
 
 void initGLES();

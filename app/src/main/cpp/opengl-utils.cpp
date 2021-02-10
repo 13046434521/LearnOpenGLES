@@ -16,7 +16,7 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_glClearColor(JNIEnv *env, jclass c
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_jtl_learnopengles_nativeutils_GL30ES_glClear(JNIEnv *env, jclass clazz, jint type) {
-    __android_log_print(ANDROID_LOG_DEBUG,TAG,"glClear");
+//    __android_log_print(ANDROID_LOG_DEBUG,TAG,"glClear");
     glClear(type);
 }
 
@@ -53,4 +53,17 @@ void initGLES(jint width,jint height){
     glBufferSubData(GL_ARRAY_BUFFER,0,size,vertices);//传输数据到该vbo上
 
     glBindBuffer(GL_ARRAY_BUFFER,0);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_jtl_learnopengles_nativeutils_GL30ES_initGLES(JNIEnv *env, jclass clazz,
+                                                       jobject asset_manager) {
+    AAssetManager* assetManager = AAssetManager_fromJava(env,asset_manager);
+//    unsigned char* vertex = loadContentFiles(assetManager, "vertex.glsl");
+//    GLint vertexShader =  compileShader(GL_VERTEX_SHADER,(char *)vertex);
+//    __android_log_print(ANDROID_LOG_DEBUG,TAG,"%d",vertexShader);
+    unsigned char* fragment = loadContentFiles(assetManager,"fragment.glsl");
+    GLint fragmentShader = compileShader(GL_FRAGMENT_SHADER,(char *)fragment);
+    __android_log_print(ANDROID_LOG_WARN,TAG,"%d", fragmentShader);
 }
