@@ -32,3 +32,12 @@ GLuint compileShader(GLenum shaderType, char *content) {
     }
     return shader;
 }
+
+GLuint createProgram(GLuint vertexShader,GLuint fragmentShader){
+    GLuint program = glCreateProgram();
+    glUseProgram(program);
+    glAttachShader(program,vertexShader);
+    glAttachShader(program,fragmentShader);
+
+    return program;
+}

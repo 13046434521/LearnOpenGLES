@@ -17,7 +17,9 @@ public class GL30ES {
 
     public static native void glClear(int type);
 
-    public static native void glViewPort(int x, int y, int width, int height);
+    public static native void onSurfaceChanged(int x, int y, int width, int height);
 
     public static native void initGLES(AssetManager assetManager);
+
+    public static native void drawFrame();
 }

@@ -1,3 +1,4 @@
+#include <limits.h>
 
 #pragma once
 
@@ -15,6 +16,7 @@ unsigned char *loadContentFiles(AAssetManager *assetManager, const char *path);
 
 GLuint compileShader(GLenum type, char *content);
 
+GLuint createProgram(GLuint vertexShader,GLuint fragmentShader);
 
 struct RenderTime {
     long long time;

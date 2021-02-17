@@ -47,12 +47,13 @@ class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceChanged(GL10 gl10, int i, int i1) {
         Log.d(BuildConfig.TAG,"onSurfaceChanged:"+i+":"+i1);
-        GL30ES.glViewPort(i/4,i1/4,i/2,i1/2);
+        GL30ES.onSurfaceChanged(i/4,i1/4,i/2,i1/2);
     }
 
     @Override
     public void onDrawFrame(GL10 gl10) {
         GL30ES.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        GL30ES.drawFrame();
 //        Log.d(BuildConfig.TAG,"onDrawFrame");
     }
 }
