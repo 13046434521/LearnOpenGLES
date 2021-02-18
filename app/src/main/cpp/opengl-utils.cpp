@@ -32,6 +32,7 @@ GLuint vbo ;
 GLuint program;
 GLuint mvpMatrix;
 GLuint position;
+glm::mat4 mvp;
 
 void initGLES(){
     Vertices vertices[3];
@@ -49,7 +50,6 @@ void initGLES(){
     vertices[2].position[1]=-0.5f;
     vertices[2].position[2]=-1.0f;
     vertices[2].position[3]=1.0f;
-
     int size = sizeof(vertices)*4;
     glGenBuffers(1,&vbo);//生成VBO
     glBindBuffer(GL_ARRAY_BUFFER,vbo);//确定vbo的数据类型为GL_ARRAY_BUFFER
@@ -75,17 +75,14 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_initGLES(JNIEnv *env, jclass clazz
 
     position = glGetAttribLocation(program,"a_Position");
     mvpMatrix = glGetUniformLocation(program,"u_mvpMatrix");
-
     initGLES();
 }extern "C"
 JNIEXPORT void JNICALL
 Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrame(JNIEnv *env, jclass clazz) {
 
     glBindBuffer(GL_ARRAY_BUFFER,vbo);
-
     glEnableVertexAttribArray(position);
-
-
+    glVertexAttribPointer(position,4,GL_FLOAT, false,0,0);
     glDrawArrays(GL_TRIANGLES,0,3);
     glBindBuffer(GL_ARRAY_BUFFER,0);
 }

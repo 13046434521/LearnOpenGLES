@@ -11,6 +11,8 @@
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 #include "utils.h"
+#include "Glm/glm.hpp"
+#include "Glm/ext.hpp"
 #define TAG "GL30ES"
 
 void initGLES();

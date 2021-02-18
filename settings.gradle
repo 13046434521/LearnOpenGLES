@@ -1,2 +1,3 @@
+include ':OGLES'
 include ':app'
 rootProject.name = "LearnOpenGLES"
