@@ -4,8 +4,6 @@
 #pragma once
 #include <jni.h>
 #include <stdio.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
 #include <android/log.h>
 #include <string>
 #include <android/asset_manager.h>
@@ -15,7 +13,9 @@
 #include "Glm/ext.hpp"
 #define TAG "GL30ES"
 
-void initGLES();
+void initBufferData();
+void initTexture();
 struct Vertices{
     float position[4];
+    float texture[4];
 };

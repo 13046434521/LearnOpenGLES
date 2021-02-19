@@ -2,6 +2,8 @@ package com.jtl.learnopengles.nativeutils;
 
 import android.content.res.AssetManager;
 
+import java.nio.ByteBuffer;
+
 /**
  * @author：TianLong
  * @date：2021/2/7 11:51
@@ -22,4 +24,6 @@ public class GL30ES {
     public static native void initGLES(AssetManager assetManager);
 
     public static native void drawFrame();
+
+    public static native void drawFrameData(int width, int height, ByteBuffer dataBuffer);
 }

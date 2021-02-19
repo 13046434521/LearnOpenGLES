@@ -23,10 +23,11 @@ GLuint compileShader(GLenum shaderType, char *content) {
 
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compile_ret);
     if (compile_ret==GL_FALSE) {
-        char result[1024] = {0};
         GLsizei logSize = 0;
+        char result[1024];
+
         glGetShaderInfoLog(shader, 1024, &logSize, result);
-        __android_log_print(ANDROID_LOG_WARN, TAG, "%c", *result);
+        __android_log_print(ANDROID_LOG_WARN, TAG,  "%s", result);
 
         glDeleteShader(shader);
     }
@@ -35,9 +36,9 @@ GLuint compileShader(GLenum shaderType, char *content) {
 
 GLuint createProgram(GLuint vertexShader,GLuint fragmentShader){
     GLuint program = glCreateProgram();
-    glUseProgram(program);
     glAttachShader(program,vertexShader);
     glAttachShader(program,fragmentShader);
+    glLinkProgram(program);
 
     return program;
 }

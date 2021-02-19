@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 28
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.jtl.learnopengles"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -40,13 +40,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        abortOnError false
+    }
+
+    ndkVersion "21.1.6352462" // e.g.,  ndkVersion '21.3.6528147'
+//    ndkPath "D/:/Sdk/android-ndk-r16b/"  // Point to your own NDK
 }
 
 dependencies {
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

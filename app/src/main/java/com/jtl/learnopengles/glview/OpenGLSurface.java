@@ -1,13 +1,23 @@
 package com.jtl.learnopengles.glview;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import com.jtl.learnopengles.BuildConfig;
+import com.jtl.learnopengles.MainActivity;
+import com.jtl.learnopengles.R;
 import com.jtl.learnopengles.nativeutils.GL30ES;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -17,8 +27,12 @@ import javax.microedition.khronos.opengles.GL10;
  * @date：2021/2/6 16:36
  * @detail：
  */
-class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
+public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
     private Context mContext;
+    private Bitmap mBitmap;
+    private ByteBuffer mDataBuffer;
+    private int width;
+    private int height;
     public OpenGLSurface(Context context) {
         this(context,null);
     }
@@ -33,27 +47,50 @@ class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
 
         this.setRenderer(this);
         this.setRenderMode(RENDERMODE_CONTINUOUSLY);
-
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.gltest);
+        width = bitmap.getWidth();
+        height = bitmap.getHeight();
+        Log.w("CESHI ",bitmap.getConfig().name()+"  "+width+"  "+height);
+        mDataBuffer = ByteBuffer.allocateDirect(width*height*4).order(ByteOrder.nativeOrder());
+        bitmap.copyPixelsToBuffer(mDataBuffer);
+        mDataBuffer.position(0);
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        GL30ES.initGLES(mContext.getAssets());
-        GL30ES.glClearColor(0.1f,1f,0.1f,1);
+        GL30ES.glClearColor(1f,1f,1f,1);
         Log.d(BuildConfig.TAG,"onSurfaceCreated");
-
+        GL30ES.initGLES(mContext.getAssets());
+        checkGLError("错了？");
     }
 
     @Override
-    public void onSurfaceChanged(GL10 gl10, int i, int i1) {
-        Log.d(BuildConfig.TAG,"onSurfaceChanged:"+i+":"+i1);
-        GL30ES.onSurfaceChanged(i/4,i1/4,i/2,i1/2);
+    public void onSurfaceChanged(GL10 gl10, int width, int height) {
+        Log.d(BuildConfig.TAG,"onSurfaceChanged:"+width+":"+height);
+        GL30ES.onSurfaceChanged(0,0,width ,height );
+//        GLES20.glViewport(0,0,i,i1);
     }
 
     @Override
     public void onDrawFrame(GL10 gl10) {
         GL30ES.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        GL30ES.drawFrame();
+//        GL30ES.drawFrame();
+
+        GL30ES.drawFrameData(width,height,mDataBuffer);
 //        Log.d(BuildConfig.TAG,"onDrawFrame");
+        checkGLError("错了？");
+    }
+
+    public static void checkGLError(String label) {
+        int lastError = GLES20.GL_NO_ERROR;
+        // Drain the queue of all errors.
+        int error;
+        while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
+            Log.e("", label + ": glError " + error);
+            lastError = error;
+        }
+        if (lastError != GLES20.GL_NO_ERROR) {
+            throw new RuntimeException(label + ": glError " + lastError);
+        }
     }
 }

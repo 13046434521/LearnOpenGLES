@@ -1,5 +1,8 @@
-#version 100
-
-void main() {
-    gl_FragColor = vec4(1.0f,0f,0f,1.0f);
+//# version 300 es
+precision mediump float;
+varying vec4 u_TextureCoord;
+uniform sampler2D u_Texture;
+//out vec4 fragColor;
+void main(){
+    gl_FragColor = texture2D(u_Texture,u_TextureCoord.st);
 }
