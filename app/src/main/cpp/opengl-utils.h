@@ -17,5 +17,6 @@
 
 void initData();
 struct Vertices{
+    float texture[2];
     float position[4];
 };

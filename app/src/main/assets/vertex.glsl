@@ -1,7 +1,7 @@
-# version 100
-
-attribute vec4 a_Position;
-
+attribute vec4 aPosition;
+attribute vec2 aTexCoord;
+varying vec2 vTexCoord;
 void main() {
-    gl_Position =  a_Position;
+    vTexCoord = aTexCoord;
+    gl_Position =  aPosition;
 }

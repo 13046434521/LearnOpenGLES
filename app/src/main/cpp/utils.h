@@ -14,7 +14,7 @@
 // 加载Android Assets文件
 unsigned char *loadContentFiles(AAssetManager *assetManager, const char *path);
 
-GLuint compileShader(GLenum type, char *content);
+GLuint compileShader(char* name,GLenum type, char *content);
 
 GLuint createProgram(GLuint vertexShader,GLuint fragmentShader);
 

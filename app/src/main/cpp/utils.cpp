@@ -15,7 +15,7 @@ unsigned char *loadContentFiles(AAssetManager *assetManager, const char *path) {
     return content;
 }
 
-GLuint compileShader(GLenum shaderType, char *content) {
+GLuint compileShader(char* type,GLenum shaderType, char *content) {
     GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &content, nullptr);
     glCompileShader(shader);
@@ -26,8 +26,8 @@ GLuint compileShader(GLenum shaderType, char *content) {
         char result[1024] = {0};
         GLsizei logSize = 0;
         glGetShaderInfoLog(shader, 1024, &logSize, result);
-        __android_log_print(ANDROID_LOG_WARN, TAG, "%s", result);
-
+        __android_log_print(ANDROID_LOG_WARN, TAG, "%s", type);
+        __android_log_print(ANDROID_LOG_ERROR, TAG,   "%s",result);
         glDeleteShader(shader);
     }
     return shader;

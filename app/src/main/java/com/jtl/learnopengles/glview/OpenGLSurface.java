@@ -9,8 +9,12 @@ import android.util.Log;
 import com.jtl.learnopengles.BuildConfig;
 import com.jtl.learnopengles.nativeutils.GL30ES;
 
+import java.nio.ByteBuffer;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import static com.jtl.learnopengles.nativeutils.GL30ES.drawFrameData;
 
 /**
  * @author：TianLong
@@ -19,6 +23,9 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
     private Context mContext;
+    private int width;
+    private int height;
+    private ByteBuffer mByteBuffer;
     public OpenGLSurface(Context context) {
         this(context,null);
     }
@@ -38,8 +45,8 @@ public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Render
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        GL30ES.initGLES(mContext.getAssets());
         GL30ES.glClearColor(0f,0f,0f,1f);
+        GL30ES.initGLES(mContext.getAssets());
         Log.d(BuildConfig.TAG,"onSurfaceCreated");
 
     }
@@ -53,7 +60,14 @@ public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Render
     @Override
     public void onDrawFrame(GL10 gl10) {
         GL30ES.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        GL30ES.drawFrame();
+//        GL30ES.drawFrame();
 //        Log.d(BuildConfig.TAG,"onDrawFrame");
+        drawFrameData(width,height,mByteBuffer);
+    }
+
+    public void setDataBuffer(int width,int height,ByteBuffer byteBuffer) {
+        mByteBuffer = byteBuffer;
+        this.height = height;
+        this.width = width;
     }
 }
