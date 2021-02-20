@@ -17,7 +17,7 @@ import javax.microedition.khronos.opengles.GL10;
  * @date：2021/2/6 16:36
  * @detail：
  */
-class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
+public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
     private Context mContext;
     public OpenGLSurface(Context context) {
         this(context,null);
