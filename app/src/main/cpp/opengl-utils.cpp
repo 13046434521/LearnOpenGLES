@@ -30,11 +30,10 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_onSurfaceChanged(JNIEnv *env, jcla
 
 GLuint vbo ;
 GLuint program;
-GLuint mvpMatrix;
 GLuint position;
 glm::mat4 mvp;
 
-void initGLES(){
+void initData(){
     Vertices vertices[3];
     vertices[0].position[0]=0.0f;
     vertices[0].position[1]=0.5f;
@@ -74,8 +73,7 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_initGLES(JNIEnv *env, jclass clazz
     program = createProgram(vertexShader,fragmentShader);
 
     position = glGetAttribLocation(program,"a_Position");
-    mvpMatrix = glGetUniformLocation(program,"u_mvpMatrix");
-    initGLES();
+    initData();
 }extern "C"
 JNIEXPORT void JNICALL
 Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrame(JNIEnv *env, jclass clazz) {

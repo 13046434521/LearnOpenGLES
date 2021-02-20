@@ -15,7 +15,7 @@
 #include "Glm/ext.hpp"
 #define TAG "GL30ES"
 
-void initGLES();
+void initData();
 struct Vertices{
     float position[4];
 };
