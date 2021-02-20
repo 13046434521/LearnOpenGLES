@@ -1,23 +1,23 @@
 package com.jtl.learnopengles;
 
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
+
+import com.jtl.learnopengles.glview.OpenGLSurface;
 
 /**
  * @author TianLong
  * @date 2021/2/6 11:10
  */
 public class MainActivity extends AppCompatActivity {
-    static {
-        System.loadLibrary("opengles_util");
-    }
-
+    private OpenGLSurface mOpenGLSurface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView tv = findViewById(R.id.sample_text);
-        tv.setText("");
+        mOpenGLSurface = findViewById(R.id.open_gl_surface);
+
     }
 }
