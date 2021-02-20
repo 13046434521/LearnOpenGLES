@@ -39,7 +39,7 @@ class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GL30ES.initGLES(mContext.getAssets());
-        GL30ES.glClearColor(0.1f,1f,0.1f,1);
+        GL30ES.glClearColor(0f,0f,0f,1f);
         Log.d(BuildConfig.TAG,"onSurfaceCreated");
 
     }
