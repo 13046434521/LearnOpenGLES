@@ -180,7 +180,7 @@ namespace glm
 	)
 	{
 		detail::tmat4x4<valType> Result(1);
-		Result[0][0] = valType(2) / (right - left);
+		Result[0][0] = valType(2)  / (right - left);
 		Result[1][1] = valType(2) / (top - bottom);
 		Result[2][2] = - valType(2) / (zFar - zNear);
 		Result[3][0] = - (right + left) / (right - left);

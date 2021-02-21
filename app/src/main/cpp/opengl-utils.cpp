@@ -4,6 +4,17 @@
 
 #include "opengl-utils.h"
 
+GLuint vbo ;
+GLuint program;
+GLuint position;
+GLuint texture;
+GLuint a_texture;
+GLuint whiteLevel;
+GLuint modelMatrix;
+GLuint viewMatrix;
+GLuint projectMatrix;
+glm::mat4 model,view,project;
+Vertices vertices[4];
 
 extern "C"
 JNIEXPORT void JNICALL
@@ -23,38 +34,41 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_jtl_learnopengles_nativeutils_GL30ES_onSurfaceChanged(JNIEnv *env, jclass clazz, jint x, jint y,
                                                          jint width, jint height) {
-    __android_log_print(ANDROID_LOG_DEBUG,TAG,"glViewPort");
+    __android_log_print(ANDROID_LOG_DEBUG,TAG,"glViewPort:width:%d:height:%d",width,height);
     glViewport(x,y,width,height);
+
+    float left = -(width)/2;
+    float right = (width)/2;
+    float top = (height)/2;
+    float bottom = -(height)/2;
+    float near = 0.1f;
+    float far =100.0f;
+
+
+    view = glm::lookAt(glm::vec3 (0,0,5),glm::vec3 (0,0,0),glm::vec3 (0,1,0));
+
+    project = glm::perspectiveFov(45.0f,(float )width,(float )height,1.0f,1000.0f);
+    project = glm::ortho(left,right,bottom,top,near,far);
 }
 
-
-GLuint vbo ;
-GLuint program;
-GLuint position;
-GLuint texture;
-GLuint a_texture;
-GLuint whiteLevel;
-glm::mat4 mvp;
-Vertices vertices[4];
-
-void initData(){
-    vertices[0].position[0]=-1.0f;
-    vertices[0].position[1]=-1.0f;
+void initBufferData(){
+    vertices[0].position[0]=-700.0f;
+    vertices[0].position[1]=-700.0f;
     vertices[0].position[2]=-1.0f;
     vertices[0].position[3]=1.0f;
 
-    vertices[1].position[0]=1.0f;
-    vertices[1].position[1]=-1.0f;
+    vertices[1].position[0]=700.0f;
+    vertices[1].position[1]=-700.0f;
     vertices[1].position[2]=-1.0f;
     vertices[1].position[3]=1.0f;
 
-    vertices[2].position[0]=-1.0f;
-    vertices[2].position[1]=1.0f;
+    vertices[2].position[0]=-700.0f;
+    vertices[2].position[1]=700.0f;
     vertices[2].position[2]=-1.0f;
     vertices[2].position[3]=1.0f;
 
-    vertices[3].position[0]=1.0f;
-    vertices[3].position[1]=1.0f;
+    vertices[3].position[0]=700.0f;
+    vertices[3].position[1]=700.0f;
     vertices[3].position[2]=-1.0f;
     vertices[3].position[3]=1.0f;
 
@@ -108,8 +122,17 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_initGLES(JNIEnv *env, jclass clazz
     __android_log_print(ANDROID_LOG_WARN,TAG,"%s""%d","aTexCoord:",a_texture);
 
     whiteLevel = glGetUniformLocation(program,"whiteLevel");
-    glUniform1f(whiteLevel,-3);
-    initData();
+    glUniform1f(whiteLevel,0);
+
+    modelMatrix = glGetUniformLocation(program,"modelMatrix");
+    viewMatrix = glGetUniformLocation(program,"viewMatrix");
+    projectMatrix = glGetUniformLocation(program,"projectMatrix");
+
+    __android_log_print(ANDROID_LOG_WARN,TAG,"%s""%d","modelMatrix:",modelMatrix);
+    __android_log_print(ANDROID_LOG_WARN,TAG,"%s""%d","viewMatrix:",viewMatrix);
+    __android_log_print(ANDROID_LOG_WARN,TAG,"%s""%d","projectMatrix:",projectMatrix);
+
+    initBufferData();
     initTexture();
 }
 
@@ -122,6 +145,11 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrame(JNIEnv *env, jclass claz
 //    __android_log_print(ANDROID_LOG_WARN,TAG,"%d", sizeof(Vertices));
 //    __android_log_print(ANDROID_LOG_ERROR,TAG,"%d", sizeof(vertices));
     glVertexAttribPointer(position,4,GL_FLOAT, false,sizeof(Vertices),0);
+
+    glUniformMatrix4fv(modelMatrix,1,GL_FALSE,glm::value_ptr(model));
+    glUniformMatrix4fv(viewMatrix,1,GL_FALSE,glm::value_ptr(view));
+    glUniformMatrix4fv(projectMatrix,1,GL_FALSE,glm::value_ptr(project));
+
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glBindBuffer(GL_ARRAY_BUFFER,0);
 }
@@ -130,12 +158,14 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrameData(JNIEnv *env, jclass clazz, jint width,
                                                             jint height, jobject data_buffer) {
+        __android_log_print(ANDROID_LOG_ERROR,TAG,"%d,%d", width,height);
     //背面剔除
 //    glEnable(GL_CULL_FACE);
 //    glCullFace(GL_BACK);
 
     void* data = env->GetDirectBufferAddress(data_buffer);
     glUseProgram(program);
+
     glBindBuffer(GL_ARRAY_BUFFER,vbo);
     glVertexAttribPointer(position,4,GL_FLOAT,GL_FALSE,sizeof(Vertices),(void *)(sizeof(float)*2));
     glEnableVertexAttribArray(position);
@@ -144,6 +174,10 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrameData(JNIEnv *env, jclass 
 
     glVertexAttribPointer(a_texture,2,GL_FLOAT,GL_FALSE,sizeof(Vertices),0);
     glEnableVertexAttribArray(a_texture);
+
+    glUniformMatrix4fv(modelMatrix,1,GL_FALSE,glm::value_ptr(model));
+    glUniformMatrix4fv(viewMatrix,1,GL_FALSE,glm::value_ptr(view));
+    glUniformMatrix4fv(projectMatrix,1,GL_FALSE,glm::value_ptr(project));
 
     glBindTexture(GL_TEXTURE_2D,texture);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,data);
