@@ -26,8 +26,9 @@ public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Render
     private int width;
     private int height;
     private ByteBuffer mByteBuffer;
+
     public OpenGLSurface(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public OpenGLSurface(Context context, AttributeSet attrs) {
@@ -45,27 +46,29 @@ public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Render
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        GL30ES.glClearColor(0f,0f,0f,1f);
+        GL30ES.glClearColor(0f, 0f, 0f, 1f);
         GL30ES.initGLES(mContext.getAssets());
-        Log.d(BuildConfig.TAG,"onSurfaceCreated");
+        Log.d(BuildConfig.TAG, "onSurfaceCreated");
 
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
-        Log.d(BuildConfig.TAG,"onSurfaceChanged:"+width+":"+height);
-        GL30ES.onSurfaceChanged(0,0,width,height);
+        Log.d(BuildConfig.TAG, "onSurfaceChanged:" + width + ":" + height);
+        GL30ES.onSurfaceChanged(0, 0, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl10) {
-        GL30ES.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);
 //        GL30ES.drawFrame();
 //        Log.d(BuildConfig.TAG,"onDrawFrame");
-        drawFrameData(width,height,mByteBuffer);
+        if (mByteBuffer != null) {
+            drawFrameData(width, height, mByteBuffer);
+        }
     }
 
-    public void setDataBuffer(int width,int height,ByteBuffer byteBuffer) {
+    public void setDataBuffer(int width, int height, ByteBuffer byteBuffer) {
         mByteBuffer = byteBuffer;
         this.height = height;
         this.width = width;

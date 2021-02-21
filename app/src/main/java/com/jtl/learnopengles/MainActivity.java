@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mOpenGLSurface = findViewById(R.id.open_gl_surface);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.mipmap.gltest);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.mipmap.hello_lihuanying);
         int wi = bitmap.getWidth();
         int hi = bitmap.getHeight();
 

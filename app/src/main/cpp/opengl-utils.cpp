@@ -33,26 +33,28 @@ GLuint program;
 GLuint position;
 GLuint texture;
 GLuint a_texture;
+GLuint whiteLevel;
 glm::mat4 mvp;
 Vertices vertices[4];
+
 void initData(){
-    vertices[0].position[0]=-0.5f;
-    vertices[0].position[1]=-0.5f;
+    vertices[0].position[0]=-1.0f;
+    vertices[0].position[1]=-1.0f;
     vertices[0].position[2]=-1.0f;
     vertices[0].position[3]=1.0f;
 
-    vertices[1].position[0]=0.5f;
-    vertices[1].position[1]=-0.5f;
+    vertices[1].position[0]=1.0f;
+    vertices[1].position[1]=-1.0f;
     vertices[1].position[2]=-1.0f;
     vertices[1].position[3]=1.0f;
 
-    vertices[2].position[0]=-0.5f;
-    vertices[2].position[1]=0.5f;
+    vertices[2].position[0]=-1.0f;
+    vertices[2].position[1]=1.0f;
     vertices[2].position[2]=-1.0f;
     vertices[2].position[3]=1.0f;
 
-    vertices[3].position[0]=0.5f;
-    vertices[3].position[1]=0.5f;
+    vertices[3].position[0]=1.0f;
+    vertices[3].position[1]=1.0f;
     vertices[3].position[2]=-1.0f;
     vertices[3].position[3]=1.0f;
 
@@ -92,7 +94,7 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_initGLES(JNIEnv *env, jclass clazz
     GLuint vertexShader =  compileShader("Vertex",GL_VERTEX_SHADER,(char *)vertex);
     __android_log_print(ANDROID_LOG_WARN,TAG,"%s",(char *)vertex);
 
-    unsigned char* fragment = loadContentFiles(assetManager,"fragment.glsl");
+    unsigned char* fragment = loadContentFiles(assetManager,"white_fs.glsl");
     GLuint fragmentShader = compileShader("Fragment",GL_FRAGMENT_SHADER,(char *)fragment);
     __android_log_print(ANDROID_LOG_WARN,TAG,"%s", ( char *)fragment);
 
@@ -105,7 +107,8 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_initGLES(JNIEnv *env, jclass clazz
     a_texture = glGetAttribLocation(program,"aTexCoord");
     __android_log_print(ANDROID_LOG_WARN,TAG,"%s""%d","aTexCoord:",a_texture);
 
-
+    whiteLevel = glGetUniformLocation(program,"whiteLevel");
+    glUniform1f(whiteLevel,-3);
     initData();
     initTexture();
 }
@@ -141,7 +144,7 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrameData(JNIEnv *env, jclass 
 
     glVertexAttribPointer(a_texture,2,GL_FLOAT,GL_FALSE,sizeof(Vertices),0);
     glEnableVertexAttribArray(a_texture);
-//
+
     glBindTexture(GL_TEXTURE_2D,texture);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,data);
 
