@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.jtl.learnopengles.glview.OpenGLSurface;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mOpenGLSurface = findViewById(R.id.open_gl_surface);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.mipmap.hello_lihuanying);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.mipmap.pointcircle);
         int wi = bitmap.getWidth();
         int hi = bitmap.getHeight();
 
@@ -32,5 +34,35 @@ public class MainActivity extends AppCompatActivity {
         bitmap.copyPixelsToBuffer(data);
         data.position(0);
         mOpenGLSurface.setDataBuffer(wi,hi,data);
+
+//        try {
+//            InputStream inputStream = this.getAssets().open("test_rgb.raw");
+//            Log.w("CHANGDU",inputStream.available()/640/480+"");
+//            byte[] rawData = new byte[inputStream.available()];
+//            byte[] rawRGBAData = new byte[rawData.length/3*4];
+//
+//
+//
+//            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(rawRGBAData.length).order(ByteOrder.nativeOrder());
+//            Log.w("CHANGDU",inputStream.available()+"  "+rawData.length+"  "+inputStream.available());
+//            inputStream.read(rawData);
+//
+//            int count = rawData.length/3;
+//            for (int i=0;i<count;++i){
+//                rawRGBAData[i*4+0]=rawData[i*3+0];
+//                rawRGBAData[i*4+1]=rawData[i*3+1];
+//                rawRGBAData[i*4+2]=rawData[i*3+2];
+//                rawRGBAData[i*4+3]=1;
+//            }
+//
+//            byteBuffer.put(rawRGBAData);
+//            byteBuffer.position(0);
+//            inputStream.close();
+//            this.getAssets().close();
+//
+//            mOpenGLSurface.setDataBuffer(480,640,byteBuffer);
+//        } catch (IOException ioException) {
+//            ioException.printStackTrace();
+//        }
     }
 }

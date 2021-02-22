@@ -44,31 +44,37 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_onSurfaceChanged(JNIEnv *env, jcla
     float near = 0.1f;
     float far =100.0f;
 
-
-    view = glm::lookAt(glm::vec3 (0,0,5),glm::vec3 (0,0,0),glm::vec3 (0,1,0));
-
-    project = glm::perspectiveFov(45.0f,(float )width,(float )height,1.0f,1000.0f);
-    project = glm::ortho(left,right,bottom,top,near,far);
+    //模型矩阵
+//    model =  glm::scale(0.5f,0.5f, 1.0f);
+    //视矩阵
+//    view = glm::lookAt(glm::vec3 (0,0,4),glm::vec3 (0,0,-1),glm::vec3 (0,1,0));
+    //透视投影矩阵
+//    project = glm::perspectiveFov(45.0f,(float )width,(float )height,1.0f,1000.0f);
+    //正交投影矩阵
+//    project = glm::ortho(left,right,bottom,top,near,far);
 }
 
+int width =1;
+int height=1;
+
 void initBufferData(){
-    vertices[0].position[0]=-700.0f;
-    vertices[0].position[1]=-700.0f;
+    vertices[0].position[0]=-width;
+    vertices[0].position[1]=-height;
     vertices[0].position[2]=-1.0f;
     vertices[0].position[3]=1.0f;
 
-    vertices[1].position[0]=700.0f;
-    vertices[1].position[1]=-700.0f;
+    vertices[1].position[0]=width;
+    vertices[1].position[1]=-height;
     vertices[1].position[2]=-1.0f;
     vertices[1].position[3]=1.0f;
 
-    vertices[2].position[0]=-700.0f;
-    vertices[2].position[1]=700.0f;
+    vertices[2].position[0]=-width;
+    vertices[2].position[1]=height;
     vertices[2].position[2]=-1.0f;
     vertices[2].position[3]=1.0f;
 
-    vertices[3].position[0]=700.0f;
-    vertices[3].position[1]=700.0f;
+    vertices[3].position[0]=width;
+    vertices[3].position[1]=height;
     vertices[3].position[2]=-1.0f;
     vertices[3].position[3]=1.0f;
 
@@ -174,7 +180,7 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrameData(JNIEnv *env, jclass 
 
     glVertexAttribPointer(a_texture,2,GL_FLOAT,GL_FALSE,sizeof(Vertices),0);
     glEnableVertexAttribArray(a_texture);
-
+    glUniform1f(whiteLevel,0);
     glUniformMatrix4fv(modelMatrix,1,GL_FALSE,glm::value_ptr(model));
     glUniformMatrix4fv(viewMatrix,1,GL_FALSE,glm::value_ptr(view));
     glUniformMatrix4fv(projectMatrix,1,GL_FALSE,glm::value_ptr(project));
