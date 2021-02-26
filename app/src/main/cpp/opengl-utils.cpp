@@ -86,6 +86,14 @@ void initBufferData(){
     vertices[2].texture[1]=0;
     vertices[3].texture[0]=1;
     vertices[3].texture[1]=0;
+//    vertices[0].texture[0]=0;
+//    vertices[0].texture[1]=0;
+//    vertices[1].texture[0]=1;
+//    vertices[1].texture[1]=0;
+//    vertices[2].texture[0]=0;
+//    vertices[2].texture[1]=1;
+//    vertices[3].texture[0]=1;
+//    vertices[3].texture[1]=1;
 
     int size = sizeof(vertices)*4;
     glGenBuffers(1,&vbo);//生成VBO
@@ -187,9 +195,10 @@ Java_com_jtl_learnopengles_nativeutils_GL30ES_drawFrameData(JNIEnv *env, jclass 
 
     glBindTexture(GL_TEXTURE_2D,texture);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,data);
-
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+//    glLineWidth(10);
 
+//    glDrawArrays(GL_LINE_LOOP,0,4);
     glBindTexture(GL_TEXTURE_2D,0);
     glBindBuffer(GL_ARRAY_BUFFER,0);
     glUseProgram(0);

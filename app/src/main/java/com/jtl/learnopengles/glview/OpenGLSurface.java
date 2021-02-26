@@ -54,7 +54,10 @@ public class OpenGLSurface extends GLSurfaceView implements GLSurfaceView.Render
 
     @Override
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
-        Log.d(BuildConfig.TAG, "onSurfaceChanged:" + width + ":" + height);
+//        Log.d(BuildConfig.TAG, "onSurfaceChanged:" + width + ":" + height);
+//        GLES20.glViewport(width/2,height/2,width/2,height/2);
+
+
         GL30ES.onSurfaceChanged(0, 0, width, height);
     }
 

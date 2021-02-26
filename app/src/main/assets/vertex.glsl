@@ -7,5 +7,4 @@ uniform mat4 projectMatrix;
 void main() {
     vTexCoord = aTexCoord;
     gl_Position = projectMatrix * viewMatrix * modelMatrix * aPosition;
-//    gl_Position = aPosition;
 }
