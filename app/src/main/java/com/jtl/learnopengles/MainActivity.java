@@ -3,6 +3,7 @@ package com.jtl.learnopengles;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.mipmap.taiquan1);
         int wi = bitmap.getWidth();
         int hi = bitmap.getHeight();
-
         ByteBuffer data = ByteBuffer.allocateDirect(wi*hi*4).order(ByteOrder.nativeOrder());
 
         bitmap.copyPixelsToBuffer(data);
