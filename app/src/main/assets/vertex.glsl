@@ -6,5 +6,6 @@ uniform mat4 viewMatrix;
 uniform mat4 projectMatrix;
 void main() {
     vTexCoord = aTexCoord;
-    gl_Position = projectMatrix * viewMatrix * modelMatrix * aPosition;
+    vec4 postion = projectMatrix * viewMatrix * modelMatrix * aPosition;
+    gl_Position = vec4(postion.x,postion.y,postion.z,postion.a);
 }
